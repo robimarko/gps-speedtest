@@ -3,6 +3,8 @@
 server_id="$1"
 filename="$2"
 
+cd "$(dirname "$0")"
+
 if [[ -z "${server_id}" || -z "${filename}" ]]; then
   echo "ERROR: Usage: $0 <speedtest-server-id> <output-filename>"
   exit 1
@@ -18,7 +20,7 @@ download="$5"
 upload="$8"
 
 NMEA_string=$(cat /dev/serial0 | grep -m1 "GGA")
-decimal_coordinates=$( echo ${NMEA_string} | ./nmea.py)
+decimal_coordinates=$( echo ${NMEA_string} | python ./nmea.py)
 gps_latitude=$(echo ${decimal_coordinates} | cut -d " " -f 1)
 gps_longitude=$(echo ${decimal_coordinates} | cut -d " " -f 2)
 
